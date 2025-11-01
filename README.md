@@ -1,2 +1,12 @@
-# splitly
-Splitly — Mobile app to split expenses fairly among friends and groups. Track spending, settle up, and stay balanced.
+# Splitly — Group Expense Splitter
+
+Monorepo:
+- `mobile/` — React Native (Expo + TypeScript) + Supabase Auth
+- `api/` — Node/Express (lógica protegida)
+
+## Run
+### API
+cd api && npm install && npm run dev
+
+### Mobile
+cd mobile && npm install && npx expo start
