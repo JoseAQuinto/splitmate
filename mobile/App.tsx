@@ -16,27 +16,41 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  const [initialRoute, setInitialRoute] = useState<'Login' | 'Home'>('Login');
+  // Estado para saber si estamos logueados y si ya se verificó la sesión
+  const [logged, setLogged] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Si hay sesión activa, salta a Home
+    // Al arrancar, mira si ya hay sesión activa en el dispositivo
     supabase.auth.getSession().then(({ data }) => {
-      setInitialRoute(data.session ? 'Home' : 'Login');
+      setLogged(!!data.session);
+      setLoading(false);
     });
 
-    // Escucha cambios de auth
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      setInitialRoute(session ? 'Home' : 'Login');
+    const result = supabase.auth.onAuthStateChange((_event, session) => {
+      setLogged(!!session);
     });
-    return () => sub.subscription.unsubscribe();
+
+    // Limpieza: al desmontar, cancela la suscripción
+    return () => result.data.subscription.unsubscribe();
   }, []);
+
+  // Mientras carga, loading
+  if (loading) return null;
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerTitle: 'Splitly' }}>
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="Home" component={HomeScreen}/>
-      </Stack.Navigator>
+      {logged ? (
+        // Navegación del usuario autenticado
+        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle: 'Splitly' }}>
+          <Stack.Screen name="Home" component={HomeScreen} />
+        </Stack.Navigator>
+      ) : (
+        // Navegación del usuario no autenticado
+        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }
