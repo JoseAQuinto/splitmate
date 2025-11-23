@@ -42,7 +42,7 @@ export default function App() {
     <NavigationContainer>
       {logged ? (
         // Navegación del usuario autenticado
-        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle: 'Splitly' }}>
+        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerTitle: 'Splitmate' }}>
           <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
       ) : (

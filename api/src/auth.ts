@@ -1,14 +1,18 @@
-import type { Request, Response, NextFunction } from 'express';
-import { supabaseAdmin } from './supabase';
+const { supabaseAdmin } = require('./supabase');
 
-export async function requireUser(req: Request, res: Response, next: NextFunction) {
+/**
+ * Middleware para validar el token de Supabase en las rutas protegidas.
+ */
+async function requireUser(req, res, next) {
   const auth = req.headers.authorization || '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   if (!token) return res.status(401).json({ error: 'missing token' });
 
-  const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
-  if (error || !user) return res.status(401).json({ error: 'invalid token' });
+  const { data, error } = await supabaseAdmin.auth.getUser(token);
+  if (error || !data?.user) return res.status(401).json({ error: 'invalid token' });
 
-  (req as any).user = user;
+  req.user = data.user;
   next();
 }
+
+module.exports = { requireUser };

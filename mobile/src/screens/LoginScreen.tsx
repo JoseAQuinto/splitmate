@@ -29,7 +29,7 @@ export default function LoginScreen({ navigation }: Props) {
 
   return (
     <View style={{ flex:1, justifyContent:'center', padding:16, gap:12 }}>
-      <Text style={{ fontSize:24, fontWeight:'700' }}>Splitly</Text>
+      <Text style={{ fontSize:24, fontWeight:'700' }}>Splitmate</Text>
       <Text style={{ opacity:0.7 }}>Sign in to split expenses</Text>
 
       <TextInput

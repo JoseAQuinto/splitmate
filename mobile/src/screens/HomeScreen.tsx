@@ -15,7 +15,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex:1, padding:16, gap:12 }}>
-      <Text style={{ fontSize:22, fontWeight:'600' }}>Welcome to Splitly</Text>
+      <Text style={{ fontSize:22, fontWeight:'600' }}>Welcome to Splitmate</Text>
       <Text>Logged in as: {email ?? '-'}</Text>
       <Button title="Sign out" onPress={logout} />
     </View>

@@ -1,4 +1,4 @@
-# Splitly — Group Expense Splitter
+# Splitmate — Group Expense Splitter
 
 Monorepo:
 - `mobile/` — React Native (Expo + TypeScript) + Supabase Auth
